@@ -7,6 +7,17 @@
 var app = require('../app');
 var debug = require('debug')('ica-presents-game:server');
 var http = require('http');
+var Eureca = require('eureca.io');
+const multichain = require("multichain-node")({
+    port: 7348,
+    host: '136.144.155.184',
+    user: "multichainrpc",
+    pass: "uPc6civWyGanmrmAgn3Tn9pPgYR3noMQt9nPMun9GeD"
+});
+
+var eurecaServer = new Eureca.Server();
+
+
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +31,16 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+eurecaServer.attach(server);
+
+
+eurecaServer.exports.sendCoins = function(address) {
+  // TODO, de daadwerkelijke call maken, return info kan niet geloof ik vanwege callbacks maar gewone functies kunnen. En versturen vereist toch geen reactie
+  console.log("verzoek tot coins verzenden binne gekregen van client");
+  return "coins sent";
+  //multichain.sendasset ofzo
+}
 
 /**
  * Listen on provided port, on all network interfaces.
